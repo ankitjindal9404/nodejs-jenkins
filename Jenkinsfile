@@ -1,5 +1,10 @@
 pipeline {
     agent any
+
+    environment {
+        VERCEL_TOKEN = credentials('VERCEL_TOKEN')
+    }
+
     options {
         skipDefaultCheckout(true)
     }
@@ -10,7 +15,7 @@ pipeline {
                 cleanWs()
             }
         }
-        
+
         stage('Checkout') {
             steps {
                 checkout scm
@@ -30,6 +35,15 @@ pipeline {
                 sh '''
                     npm test
                     ''' 
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh '''
+                    npm install -g vercel
+                    vercel --prod --token=$VERCEL_TOKEN --confirm --name=cicdproject
+                    '''
             }
         }
     }
