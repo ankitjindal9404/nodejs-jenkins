@@ -42,7 +42,7 @@ pipeline {
             steps {
                 sh '''
                     npm install vercel
-                    vercel --prod --token=$VERCEL_TOKEN --confirm --name=cicdproject
+                    npx vercel --prod --token=$VERCEL_TOKEN --confirm --name=cicdproject
                     '''
             }
         }
