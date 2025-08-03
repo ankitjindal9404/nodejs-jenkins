@@ -41,7 +41,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                    npm install -g vercel
+                    npm install vercel
                     vercel --prod --token=$VERCEL_TOKEN --confirm --name=cicdproject
                     '''
             }
