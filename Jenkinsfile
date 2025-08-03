@@ -23,6 +23,13 @@ pipeline {
         }
 
         stage('Install') {
+            agent {
+                docker {
+                    image 'node:22.11.0-alpine3.20'
+                    args '-u root'
+                    reuseNode true
+                }
+            }
             steps {
                 sh '''
                     npm ci
@@ -31,6 +38,13 @@ pipeline {
         }
 
         stage('Test') {
+            agent {
+                docker {
+                    image 'node:22.11.0-alpine3.20'
+                    args '-u root'
+                    reuseNode true
+                }
+            }
             steps {
                 sh '''
                     npm test
@@ -39,10 +53,17 @@ pipeline {
         }
 
         stage('Deploy') {
+            agent {
+                docker {
+                    image 'node:22.11.0-alpine3.20'
+                    args '-u root'
+                    reuseNode true
+                }
+            }
             steps {
                 sh '''
-                    npm install vercel
-                    npx vercel --prod --token=$VERCEL_TOKEN --confirm --name=cicdproject
+                    npm install -g vercel
+                    vercel --prod --token=$VERCEL_TOKEN --confirm --name=cicdproject
                     '''
             }
         }
